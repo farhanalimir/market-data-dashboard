@@ -10,16 +10,14 @@ from io import BytesIO
 import os
 from dotenv import load_dotenv
 
-# === Load Environment Variables ===
-load_dotenv()
+# === Load DATABASE_URL ===
+try:
+    DATABASE_URL = st.secrets["DATABASE_URL"]
+except KeyError:
+    load_dotenv()
+    DATABASE_URL = os.getenv("DATABASE_URL")
 
-# === PostgreSQL connection setup ===
-DB_USER = os.getenv("DB_USER")
-DB_PASS = os.getenv("DB_PASS")
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-DB_NAME = os.getenv("DB_NAME")
-DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+# === Now connect ===
 engine = create_engine(DATABASE_URL)
 
 # === Streamlit App ===
@@ -134,9 +132,9 @@ if symbol:
             # === Backtesting Integration ===
             st.subheader("Backtest Strategy Using Predictions")
             st.caption(
-    "This simulation assumes you start with $10,000 and only buy when the model predicts tomorrow's price "
-    "will be more than the current price by the selected threshold (e.g., {threshold}%). "
-    "It sells when the predicted price is lower. This helps visualize potential strategy performance based on the model.")
+                "This simulation assumes you start with $10,000 and only buy when the model predicts tomorrow's price "
+                "will be more than the current price by the selected threshold (e.g., {threshold}%). "
+                "It sells when the predicted price is lower. This helps visualize potential strategy performance based on the model.")
             threshold = st.slider("Set Buy Signal Threshold (% above current price):", min_value=1, max_value=10, value=5)
 
             def backtest_strategy(df, initial_cash=10000, threshold_pct=5):
