@@ -7,5 +7,5 @@ SQLAlchemy
 scikit-learn
 matplotlib
 python-dotenv
-psycopg2
+psycopg2-binary==2.9.10
 XlsxWriter
