@@ -1,0 +1,11 @@
+streamlit
+yfinance
+plotly
+pandas
+numpy
+SQLAlchemy
+scikit-learn
+matplotlib
+python-dotenv
+psycopg2
+XlsxWriter
